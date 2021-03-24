@@ -17,51 +17,15 @@
 			</div>
 		</div>
 		<div class="flex flex-row px-5 py-2">
-			<form v-if="isToggle == false" class="flex flex-col flex-grow py-3">
-				<input
-					placeholder="Email"
-					class="border my-2 px-2 py-1"
-					id="sign-in-email"
-					type="email"
-				/>
-				<input
-					placeholder="Password"
-					class="border my-2 px-2 py-1"
-					id="sign-in-password"
-					type="password"
-				/>
-				<button class="mt-2 bg-blue-400 text-white uppercase py-1">
-					sign in
-				</button>
-			</form>
-			<form v-else class="flex flex-col flex-grow py-3">
-				<input
-					placeholder="Username"
-					class="border my-2 px-2 py-1"
-					id="sign-up-username"
-					type="text"
-				/>
-				<input
-					placeholder="Email"
-					class="border my-2 px-2 py-1"
-					id="sign-up-email"
-					type="email"
-				/>
-				<input
-					placeholder="Password"
-					class="border my-2 px-2 py-1"
-					id="sign-up-password"
-					type="password"
-				/>
-				<button class="mt-2 bg-blue-400 text-white uppercase py-1">
-					sign up
-				</button>
-			</form>
+			<Login v-if="isToggle == false" />
+			<Register v-else />
 		</div>
 	</div>
 </template>
 
 <script>
+import Login from '../components/Login';
+import Register from '../components/Register';
 export default {
 	name: 'Auth',
 	data() {
@@ -69,7 +33,10 @@ export default {
 			isToggle: false,
 		};
 	},
-	components: {},
+	components: {
+		Login,
+		Register,
+	},
 	methods: {},
 };
 </script>
