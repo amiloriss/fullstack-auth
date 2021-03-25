@@ -35,6 +35,19 @@ export default {
 			if (this.signinEmail !== '' && this.signinPassword !== '') {
 				// if one from those fields do not fill
 				console.log('sign in');
+
+				fetch('/person', {
+					method: 'GET',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					// body: JSON.stringify({
+					// 	email: this.signinEmail,
+					// 	password: this.signinPassword,
+					// }),
+				});
+
 				this.signinEmail = '';
 				this.signinPassword = '';
 			} else {

@@ -11,7 +11,7 @@
 			placeholder="Email"
 			class="border my-2 px-2 py-1"
 			id="sign-up-email"
-			type="email"
+			type="text"
 			v-model="signupEmail"
 		/>
 		<input
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
 	name: 'Register',
 	data() {
@@ -37,7 +38,9 @@ export default {
 			signupPassword: '',
 		};
 	},
+	// computed: mapGetters('getCurrentPerson'),
 	methods: {
+		...mapActions(['addPerson']),
 		signUp() {
 			if (
 				this.signupUsername !== '' &&
@@ -46,19 +49,10 @@ export default {
 			) {
 				// if one from those fields do not fill
 				console.log('sign up');
-				fetch('/person', {
-					method: 'POST',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						user: {
-							signupUsername: this.signupUsername,
-							signupEmail: this.signupEmail,
-							signupPassword: this.signupPassword,
-						},
-					}),
+				this.addPerson({
+					username: this.signupUsername,
+					email: this.signupEmail,
+					password: this.signupPassword,
 				});
 				this.signupUsername = '';
 				this.signupEmail = '';
