@@ -1,13 +1,10 @@
 # run server
-
-import resources
-
-from flask import Flask, request
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-# from flask_jwt_extended import (create_access_token, create_refresh_token,
-#                                 jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt)
+from flask_restful import Api
 
 app = Flask(__name__)
+api = Api(app)
 
 ENV = 'dev'
 
@@ -25,7 +22,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-import models, resources
+import models
+from resources import PersonRegistration
+
+api.add_resource(PersonRegistration, '/api/register')
 
 if __name__ == '__main__':
     app.run()

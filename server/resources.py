@@ -1,26 +1,34 @@
 # API endpoints
 from app import app, db
+from flask import jsonify
+import jwt
+import datetime
+from flask_restful import Resource
+from flask_restful import request
+import models
 
-
-@app.route('/', methods=['POST', 'GET'])
-def handle_persons():
-    if request.method == 'POST':
+# register new person 
+# POST
+# /api/auth
+class PersonRegistration(Resource):
+    def post(self):
         if request.is_json:
             data = request.get_json()
-            new_person = PersonsModel(
-                username=data['username'], email=data['email'], password=data['password'])
+            token = jwt.encode({'person': {'email': data['email'], 'username': data['username']}, 'exp': datetime.datetime.utcnow()+ datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+            new_person = models.PersonModel(
+                username=data['username'],
+                email=data['email'],
+                password = models.PersonModel.generate_hash(data['password'])
+            )
             db.session.add(new_person)
             db.session.commit()
-            return {"message": f"person {new_person.username} has been created successfully."}
+            # return {"message": f"person {new_person.username} has been created successfully."}
+            return jsonify({'token': token.decode('UTF-8')})
         else:
             return {"error": "The request payload is not in JSON format"}
 
-    elif request.method == 'GET':
-        persons = PersonsModel.query.get(person.email)
-        results = [
-            {
-                "email": person.email,
-                "password": person.password
-            } for person in persons]
-        return {'person you look for': results}
-        # return {"count": len(results), "persons": results}
+# register new person 
+# GET
+# /api/auth
+# class PersonLogin(Resource):
+#     def get(self):
