@@ -41,7 +41,8 @@ export default {
 	// computed: mapGetters('getCurrentPerson'),
 	methods: {
 		...mapActions(['addPerson']),
-		signUp() {
+		signUp(e) {
+			e.preventDefault();
 			if (
 				this.signupUsername !== '' &&
 				this.signupEmail !== '' &&
