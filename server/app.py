@@ -25,7 +25,7 @@ db = SQLAlchemy(app)
 import models
 from resources import PersonRegistration
 
-api.add_resource(PersonRegistration, '/api/register')
+api.add_resource(PersonRegistration, '/api/persons')
 
 if __name__ == '__main__':
     app.run()
