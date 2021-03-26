@@ -33,8 +33,13 @@ class PersonRegistration(Resource):
 # login
 # GET
 # /api/auth
-# class PersonLogin(Resource):
-#     def post(self):
-#         if request.is_json
-#             data = request.get_json()
+class PersonLogin(Resource):
+    def post(self):
+        if request.is_json:
+            data = request.get_json()
+            person = models.PersonModel.find_by_email(data['email'])
+            if person and models.PersonModel.verify_hash(data['password'], person.password):
+                return 'User has been founded'
+            else:
+                abort(400, "Person not found")
 

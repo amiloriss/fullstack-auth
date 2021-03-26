@@ -23,9 +23,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 import models
-from resources import PersonRegistration
+from resources import PersonRegistration, PersonLogin
 
 api.add_resource(PersonRegistration, '/api/persons')
+api.add_resource(PersonLogin, '/api/persons/login')
 
 if __name__ == '__main__':
     app.run()

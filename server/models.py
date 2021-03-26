@@ -14,11 +14,11 @@ class PersonModel(db.Model):
         self.email = email
         self.password = password
 
-    # if users already exists with email
+    # if person already exists with email
     @classmethod
     def find_by_email(cls, email):
         return cls.query.filter_by(email = email).scalar()
-
+        
     @staticmethod
     def generate_hash(password):
         return sha256.hash(password)

@@ -40,7 +40,7 @@ export default {
 	},
 	// computed: mapGetters('getCurrentPerson'),
 	methods: {
-		...mapActions(['addPerson']),
+		...mapActions(['register']),
 		signUp(e) {
 			e.preventDefault();
 			if (
@@ -50,7 +50,7 @@ export default {
 			) {
 				// if one from those fields do not fill
 				console.log('sign up');
-				this.addPerson({
+				this.register({
 					username: this.signupUsername,
 					email: this.signupEmail,
 					password: this.signupPassword,

@@ -8,14 +8,24 @@ const state = {};
 const mutations = {};
 
 const actions = {
-	async addPerson({ commit }, newPerson) {
-		fetch('/person', {
+	async login({commit}, person){
+		await fetch('/api/persons/login', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(newPerson),
+			body: JSON.stringify(person),
+		})
+	},
+	async register({ commit }, person) {
+		await fetch('/api/persons', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(person),
 		});
 	},
 };
