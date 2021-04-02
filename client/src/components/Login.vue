@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import { mapActions } from 'vuex';
 export default {
 	name: 'Login',
 	data() {
@@ -36,12 +36,10 @@ export default {
 		signIn(e) {
 			e.preventDefault();
 			if (this.signinEmail !== '' && this.signinPassword !== '') {
-				// if one from those fields do not fill
-				console.log('sign in');
 				this.login({
 					email: this.signinEmail,
-					password: this.signinPassword
-				})
+					password: this.signinPassword,
+				});
 				this.signinEmail = '';
 				this.signinPassword = '';
 			} else {
