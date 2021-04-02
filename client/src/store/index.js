@@ -14,7 +14,7 @@ const mutations = {
 	setPerson: (state, personData) =>
 		(state.person = JSON.parse(localStorage.getItem('personData'))),
 	updateToken: (state, token) => (state.token = token),
-	fetchUser: (state, personData) => (state.person = personData),
+	fetchPerson: (state, personData) => (state.person = personData),
 	setAuth: (state, authSuccess) => (state.isAuth = authSuccess),
 	logout: state => localStorage.removeItem('personToken'),
 };
@@ -42,14 +42,18 @@ const actions = {
 				commit('setAuth', true);
 
 				if (state.token) router.push('/home');
+			}else{
+				const err = await res.text()
+				throw new Error(err)
 			}
 		} catch (error) {
-			console.error(error);
+			// alert
+			console.log(error.message);
 		}
 	},
 
-	fetchUser({ commit }) {
-		commit('fetchUser', JSON.parse(localStorage.getItem('personData')));
+	fetchPerson({ commit }) {
+		commit('fetchPerson', JSON.parse(localStorage.getItem('personData')));
 	},
 
 	fetchToken({ commit }) {
@@ -57,14 +61,26 @@ const actions = {
 	},
 
 	async register({ commit }, person) {
-		await fetch('/auth', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(person),
-		});
+		try {
+			const res = await fetch('/auth', {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(person),
+			});
+
+			// alert user has been created
+
+			if (res.status !== 200) {
+				const err = await res.text()
+				throw new Error(err)
+			} 
+		} catch (error) {
+			// alert this person already exists
+			console.log(error.message);
+		}
 	},
 
 	logout({ commit }) {

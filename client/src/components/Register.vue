@@ -38,7 +38,6 @@ export default {
 			signupPassword: '',
 		};
 	},
-	// computed: mapGetters('getCurrentPerson'),
 	methods: {
 		...mapActions(['register']),
 		signUp(e) {

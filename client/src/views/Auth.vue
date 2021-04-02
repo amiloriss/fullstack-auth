@@ -1,5 +1,6 @@
 <template>
-	<div class="mt-40 mx-auto flex flex-col w-96 border border-blue-400">
+<div class="flex items-center flex-col">
+	<div class="mt-40 flex flex-col w-96 border border-blue-400">
 		<div class="w-full">
 			<div
 				@click="isToggle = false"
@@ -21,11 +22,14 @@
 			<Register v-else />
 		</div>
 	</div>
+	<Alert alertMessage = 'person not found'/>
+	</div>
 </template>
 
 <script>
 import Login from '../components/Login';
 import Register from '../components/Register';
+import Alert from '../components/Alert'
 export default {
 	name: 'Auth',
 	data() {
@@ -36,6 +40,7 @@ export default {
 	components: {
 		Login,
 		Register,
+		Alert
 	},
 	methods: {},
 };

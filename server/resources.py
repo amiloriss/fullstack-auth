@@ -15,7 +15,8 @@ class PersonRegistration(Resource):
         if request.is_json:
             data = request.get_json()
             if models.PersonModel.find_by_email(data['email']):
-                abort(400, "This person already exists")
+                # abort(400, jsonify({"message": "This person already exists"})
+                return 'This person already exists', 400
             else:
 
                 new_person = models.PersonModel(
@@ -42,6 +43,6 @@ class PersonLogin(Resource):
                                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
                 return jsonify(token=token.decode('UTF-8'), email=person.email, username=person.username)
             else:
-                abort(400, "Person not found")
+                return "Person not found", 400
         else:
             return {"error": "The request payload is not in JSON format"}
