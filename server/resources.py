@@ -7,9 +7,9 @@ from flask_restful import Resource
 from flask_restful import request
 import models
 
-# register new person 
+# register new person
 # POST
-# /api/auth
+# /api/persons
 class PersonRegistration(Resource):
     def post(self):
         if request.is_json:
@@ -17,29 +17,31 @@ class PersonRegistration(Resource):
             if models.PersonModel.find_by_email(data['email']):
                 abort(400, "This person already exists")
             else:
-                token = jwt.encode({'person': {'email': data['email'], 'username': data['username']}, 'exp': datetime.datetime.utcnow()+ datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+
                 new_person = models.PersonModel(
                     username=data['username'],
                     email=data['email'],
-                    password = models.PersonModel.generate_hash(data['password'])
+                    password=models.PersonModel.generate_hash(data['password'])
                 )
                 db.session.add(new_person)
                 db.session.commit()
-                # return {"message": f"person {new_person.username} has been created successfully."}
-                return jsonify({'token': token.decode('UTF-8')})
+                return 'User has been created'
         else:
             return {"error": "The request payload is not in JSON format"}
 
 # login
-# GET
-# /api/auth
+# POST
+# /api/persons/login
 class PersonLogin(Resource):
     def post(self):
         if request.is_json:
             data = request.get_json()
             person = models.PersonModel.find_by_email(data['email'])
             if person and models.PersonModel.verify_hash(data['password'], person.password):
-                return 'User has been founded'
+                token = jwt.encode({'person': {'email': person.email, 'username': person.username},
+                               'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+                return jsonify(token=token.decode('UTF-8'), email=person.email, username=person.username)
             else:
                 abort(400, "Person not found")
-
+        else:
+            return {"error": "The request payload is not in JSON format"}

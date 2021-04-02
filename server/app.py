@@ -25,8 +25,8 @@ db = SQLAlchemy(app)
 import models
 from resources import PersonRegistration, PersonLogin
 
-api.add_resource(PersonRegistration, '/api/persons')
-api.add_resource(PersonLogin, '/api/persons/login')
+api.add_resource(PersonRegistration, '/auth')
+api.add_resource(PersonLogin, '/auth/login')
 
 if __name__ == '__main__':
     app.run()
