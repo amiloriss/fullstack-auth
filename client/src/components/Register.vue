@@ -52,7 +52,6 @@ export default {
 				this.signupPassword !== ''
 			) {
 				// if one from those fields do not fill
-				console.log('sign up');
 				this.register({
 					username: this.signupUsername.trim(),
 					email: this.signupEmail.trim(),
@@ -61,8 +60,6 @@ export default {
 				this.signupUsername = '';
 				this.signupEmail = '';
 				this.signupPassword = '';
-			} else {
-				console.log('fail to sign up');
 			}
 		},
 	},

@@ -44,8 +44,6 @@ export default {
 				});
 				this.signinEmail = '';
 				this.signinPassword = '';
-			} else {
-				console.log('fail to sign in');
 			}
 		},
 	},

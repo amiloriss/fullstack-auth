@@ -65,7 +65,7 @@ const actions = {
 				throw new Error(err);
 			}
 		} catch (error) {
-			// alert
+			// alert fail to login
 			commit('setLogin', [false, error.message]);
 		}
 	},
