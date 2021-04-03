@@ -1,6 +1,7 @@
 <template>
 	<form @submit="signUp" class="flex flex-col flex-grow py-3">
 		<input
+			required
 			placeholder="Username"
 			class="border my-2 px-2 py-1"
 			id="sign-up-username"
@@ -8,6 +9,7 @@
 			v-model="signupUsername"
 		/>
 		<input
+			required
 			placeholder="Email"
 			class="border my-2 px-2 py-1"
 			id="sign-up-email"
@@ -15,6 +17,8 @@
 			v-model="signupEmail"
 		/>
 		<input
+			required
+			minlength="6"
 			placeholder="Password"
 			class="border my-2 px-2 py-1"
 			id="sign-up-password"
@@ -50,9 +54,9 @@ export default {
 				// if one from those fields do not fill
 				console.log('sign up');
 				this.register({
-					username: this.signupUsername,
-					email: this.signupEmail,
-					password: this.signupPassword,
+					username: this.signupUsername.trim(),
+					email: this.signupEmail.trim(),
+					password: this.signupPassword.trim(),
 				});
 				this.signupUsername = '';
 				this.signupEmail = '';

@@ -6,17 +6,37 @@ Vue.use(Vuex);
 
 const state = {
 	person: null,
-	isAuth: null,
+	isLogin: null,
+	alertMessage: '',
+	isRegister: null,
 	token: null,
 };
 
 const mutations = {
-	setPerson: (state, personData) =>
+	setPerson: state =>
 		(state.person = JSON.parse(localStorage.getItem('personData'))),
 	updateToken: (state, token) => (state.token = token),
 	fetchPerson: (state, personData) => (state.person = personData),
-	setAuth: (state, authSuccess) => (state.isAuth = authSuccess),
-	logout: state => localStorage.removeItem('personToken'),
+	setRegister: (state, [isRegister, message]) => {
+		state.isRegister = isRegister;
+		state.alertMessage = message;
+		setTimeout(() => {
+			state.isRegister = null;
+			state.alertMessage = '';
+		}, 3000);
+	},
+	setLogin: (state, [isLogin, message]) => {
+		state.isLogin = isLogin;
+		state.alertMessage = message;
+		setTimeout(() => {
+			state.isLogin = null;
+			state.alertMessage = '';
+		}, 3000);
+	},
+	logout: () => {
+		localStorage.removeItem('personToken');
+		localStorage.removeItem('personData');
+	},
 };
 
 const actions = {
@@ -32,22 +52,21 @@ const actions = {
 			});
 			if (res.status === 200) {
 				const { email, username, token } = await res.json();
-				const personData = { email, username };
 
 				localStorage.setItem('personToken', token);
 				localStorage.setItem('personData', JSON.stringify({ email, username }));
 
 				commit('updateToken', token);
-				commit('setPerson', personData);
-				commit('setAuth', true);
+				commit('setPerson');
 
 				if (state.token) router.push('/home');
-			}else{
-				const err = await res.text()
-				throw new Error(err)
+			} else {
+				const err = await res.text();
+				throw new Error(err);
 			}
 		} catch (error) {
 			// alert
+			commit('setLogin', [false, error.message]);
 			console.log(error.message);
 		}
 	},
@@ -71,14 +90,16 @@ const actions = {
 				body: JSON.stringify(person),
 			});
 
+			const response = await res.text() 
 			// alert user has been created
+			commit('setRegister', [true, response]);
 
 			if (res.status !== 200) {
-				const err = await res.text()
-				throw new Error(err)
-			} 
+				throw new Error(response);
+			}
 		} catch (error) {
 			// alert this person already exists
+			commit('setRegister', [false, error.message]);
 			console.log(error.message);
 		}
 	},

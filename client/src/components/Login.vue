@@ -1,6 +1,7 @@
 <template>
 	<form @submit="signIn" class="flex flex-col flex-grow py-3">
 		<input
+			required
 			placeholder="Email"
 			class="border my-2 px-2 py-1"
 			id="sign-in-email"
@@ -8,6 +9,7 @@
 			v-model="signinEmail"
 		/>
 		<input
+			required
 			placeholder="Password"
 			class="border my-2 px-2 py-1"
 			id="sign-in-password"
@@ -37,8 +39,8 @@ export default {
 			e.preventDefault();
 			if (this.signinEmail !== '' && this.signinPassword !== '') {
 				this.login({
-					email: this.signinEmail,
-					password: this.signinPassword,
+					email: this.signinEmail.trim(),
+					password: this.signinPassword.trim(),
 				});
 				this.signinEmail = '';
 				this.signinPassword = '';

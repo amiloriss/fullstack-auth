@@ -10,15 +10,15 @@ import models
 # register new person
 # POST
 # /api/persons
+
+
 class PersonRegistration(Resource):
     def post(self):
         if request.is_json:
             data = request.get_json()
             if models.PersonModel.find_by_email(data['email']):
-                # abort(400, jsonify({"message": "This person already exists"})
                 return 'This person already exists', 400
             else:
-
                 new_person = models.PersonModel(
                     username=data['username'],
                     email=data['email'],
@@ -33,6 +33,8 @@ class PersonRegistration(Resource):
 # login
 # POST
 # /api/persons/login
+
+
 class PersonLogin(Resource):
     def post(self):
         if request.is_json:
@@ -40,7 +42,7 @@ class PersonLogin(Resource):
             person = models.PersonModel.find_by_email(data['email'])
             if person and models.PersonModel.verify_hash(data['password'], person.password):
                 token = jwt.encode({'person': {'email': person.email, 'username': person.username},
-                               'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+                                    'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
                 return jsonify(token=token.decode('UTF-8'), email=person.email, username=person.username)
             else:
                 return "Person not found", 400
