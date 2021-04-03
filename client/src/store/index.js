@@ -61,13 +61,12 @@ const actions = {
 
 				if (state.token) router.push('/home');
 			} else {
-				const err = await res.text();
+				const err = await res.json();
 				throw new Error(err);
 			}
 		} catch (error) {
 			// alert
 			commit('setLogin', [false, error.message]);
-			console.log(error.message);
 		}
 	},
 
@@ -90,7 +89,7 @@ const actions = {
 				body: JSON.stringify(person),
 			});
 
-			const response = await res.text() 
+			const response = await res.json() 
 			// alert user has been created
 			commit('setRegister', [true, response]);
 
