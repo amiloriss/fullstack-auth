@@ -1,4 +1,4 @@
-# Database Models
+# Database Model
 from app import db
 from passlib.hash import pbkdf2_sha256 as sha256
 
@@ -19,6 +19,7 @@ class PersonModel(db.Model):
     def find_by_email(cls, email):
         return cls.query.filter_by(email = email).scalar()
         
+    # hash password
     @staticmethod
     def generate_hash(password):
         return sha256.hash(password)

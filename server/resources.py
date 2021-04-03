@@ -9,7 +9,7 @@ import models
 
 # register new person
 # POST
-# /api/persons
+# /auth
 
 
 class PersonRegistration(Resource):
@@ -32,7 +32,7 @@ class PersonRegistration(Resource):
 
 # login
 # POST
-# /api/persons/login
+# /auth/login
 
 
 class PersonLogin(Resource):
